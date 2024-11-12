@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Fornalha Pedidos</title>
+    <style>
+        body {
+            background-color: rgb(240, 208, 169);
+            background-size: cover;
+            background-position: center;
+            opacity: 0.9;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #ffff;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .quadrado {
+            width: 260px;
+            height: 380px;
+            background-color: #000000;
+            border-radius: 40px;
+            padding: 25px;
+            margin: 25px;
+            border: 2px solid #ffff;
+            text-align: center;
+            transform: translateX(-100px);
+        }
+
+        input[type="radio"] {
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        label {
+            vertical-align: middle;
+        }
+
+        .teste {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        button {
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: black;
+            cursor: pointer;
+            border-color: aliceblue;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: green;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: black;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            margin-right: 180px;
+            font-size: 1.1em;
+        }
+
+        .nav-list li {
+            margin-left: 32px;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu div {
+            width: 32px;
+            height: 2px;
+            background: #fff;
+            margin: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-list.active {
+            display: flex;
+        }
+
+        .nav-list li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+            margin-left: 200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer {
+            text-align: center;
+            color: black;
+        }
+
+        #pedidoList {
+            width: 600px;
+            background: black;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            overflow-y: auto;
+            max-height: 400px; /* Define altura máxima da lista */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            table-layout: auto;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: black;
+        }
+
+        .pedido {
+            background: black;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        #pedidos{
+            text-align: center;
+        }
+
+        /* Estilo para o contêiner dos botões */
+        .button-container {
+            display: flex;
+            justify-content: center; /* Centraliza os botões */
+            gap: 10px; /* Espaço entre os botões */
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="#" class="logo">A Fornalha🍕</a>
+        <div class="mobile-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-list">
+            <li><a href="pag.inicial.html"><strong>Página Inicial</strong></a></li>
+            <li><a href="cardapio.html"><strong>Cardápio</strong></a></li>
+            <li><a href="contato.html"><strong>Contato</strong></a></li>
+        </ul>
+    </nav>
+    <br><br><br>
+    <div class="container">
+        <div class="quadrado">
+            <form id="pedidoForm">
+                <h1>Faça o Pedido</h1>
+                <br>
+                <label for="pizzaType">Sabores da pizza:</label><br>
+                <select id="pizzaType" name="pizzaType" onchange="disableDefaultOption(this)">
+                    <option disabled selected>Selecione uma das opções</option>
+                    <option value=" "> </option>
+                    <option value="Marguerita">Marguerita</option>
+                    <option value="Pepperoni">Pepperoni</option>
+                    <option value="Vegetariana">Vegetariana</option>
+                    <option value="Frango com Catupiry">Frango com Catupiry</option>
+                    <option value="Mussarela">Mussarela</option>
+                    <option value="Calabresa">Calabresa</option>
+                </select>
+                <br><br>
+                <label for="bebidastype">Bebidas:</label><br>
+                <select id="bebidastype" name="bebidastype" onchange="disableDefaultOption(this)">
+                    <option disabled selected>Selecione uma das opções</option>
+                    <option value=" "> </option>
+                    <option value="Coca-Cola">Coca-Cola 2L</option>
+                    <option value="Guaraná">Guaraná 2L</option>
+                    <option value="Fanta">Fanta Laranja 2L</option>
+                    <option value="Suco de uva">Suco de Uva 2L</option>
+                    <option value="Sprite">Sprite 2L</option>
+                </select>
+                <br><br><br>
+                <label>Tamanho da pizza:</label><br><br>
+                <input type="radio" id="small" name="size" value="Pequena">
+                <label for="small">Pequena</label>
+                <input type="radio" id="medium" name="size" value="Média">
+                <label for="medium">Média</label>
+                <input type="radio" id="large" name="size" value="Grande">
+                <label for="large">Grande</label>
+                <br><br><br>
+            </form>
+            <div class="button-container">
+                <button onclick="enviarPedido()">Enviar Pedido</button>
+                <button onclick="limparFormulario()">Limpar</button>
+            </div>
+        </div>
+        <div id="pedidoList">
+            <h2 id="pedidos">Pedidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pizza</th>
+                        <th>Bebida</th>
+                        <th>Tamanho</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="pedidoTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const pedidos = [];
+        let currentEditId = null;
+
+        function disableDefaultOption(selectElement) {
+            selectElement.options[0].disabled = true;
+        }
+
+        function limparFormulario() {
+            document.getElementById("pedidoForm").reset();
+            let selects = document.getElementsByTagName("select");
+            for (let i = 0; i < selects.length; i++) {
+                selects[i].options[0].disabled = false;
+            }
+        }
+
+        async function enviarPedido() {
+            const pizzaType = document.getElementById("pizzaType").value;
+            const bebidastype = document.getElementById("bebidastype").value;
+            let tamanhoPizza = "";
+            const sizes = document.getElementsByName("size");
+            for (let i = 0; i < sizes.length; i++) {
+                if (sizes[i].checked) {
+                    tamanhoPizza = sizes[i].value;
+                    break;
+                }
+            }
+
+            if (!pizzaType || !bebidastype || !tamanhoPizza) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            const pedido = { pizzaType, bebidastype, tamanhoPizza };
+
+            try {
+                let response;
+                if (currentEditId) {
+                    response = await fetch(`http://localhost:3000/pedidos/${currentEditId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(pedido),
+                    });
+                    currentEditId = null; // Reset após edição
+                } else {
+                    response = await fetch('http://localhost:3000/pedidos', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(pedido),
+                    });
+                }
+
+                if (response.ok) {
+                    await exibirPedidos();
+                    limparFormulario();
+                } else {
+                    alert('Erro ao enviar pedido!');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        async function exibirPedidos() {
+            const pedidoTableBody = document.getElementById("pedidoTableBody");
+            pedidoTableBody.innerHTML = ''; // Limpa a tabela atual
+            try {
+                const response = await fetch('http://localhost:3000/pedidos');
+                const pedidos = await response.json();
+                pedidos.forEach((pedido) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${pedido.pizzaType}</td>
+                        <td>${pedido.bebidastype}</td>
+                        <td>${pedido.tamanhoPizza}</td>
+                        <td>
+                            <div class="button-container">
+                                <button onclick="editarPedido(${pedido.id})">Editar</button>
+                                <button onclick="removerPedido(${pedido.id})">Remover</button>
+                            </div>
+                        </td>
+                    `;
+                    pedidoTableBody.appendChild(row);
+                });
+                // Atualizar a lista de pedidos global
+                window.pedidos = pedidos; 
+            } catch (error) {
+                console.error('Erro ao obter pedidos:', error);
+            }
+        }
+
+        function editarPedido(id) {
+            const pedido = window.pedidos.find(p => p.id === id);
+            document.getElementById("pizzaType").value = pedido.pizzaType;
+            document.getElementById("bebidastype").value = pedido.bebidastype;
+            document.getElementsByName("size").forEach(radio => {
+                radio.checked = radio.value === pedido.tamanhoPizza;
+            });
+
+            currentEditId = id; // Salva o ID do pedido que está sendo editado
+        }
+
+        async function removerPedido(pedidoId) {
+            console.log("Tentando remover pedido com ID:", pedidoId); // Log para depuração
+
+            if (!pedidoId) {
+                console.error("ID do pedido não definido.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/pedidos/${pedidoId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    await exibirPedidos(); // Atualiza a tabela
+                } else {
+                    alert('Erro ao remover pedido!');
+                }
+            } catch (error) {
+                console.error('Erro ao remover pedido:', error);
+            }
+        }
+
+        window.onload = exibirPedidos;
+    </script>
+
+    <footer>
+        <p>Copyright &copy; 2024</p>
+    </footer>
+</body>
+</html>
